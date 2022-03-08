@@ -314,41 +314,6 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
   ]
 }
 
-// param sku string = 'B1' // The SKU of App Service Plan
-// param linuxFxVersion string = 'node|14-lts' // The runtime stack of web app
-// param repositoryUrl string = 'https://github.com/jameshoff-msft/frontend'
-// param branch string = 'master'
-
-// resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
-//   name: appServicePlanName
-//   location: location
-//   properties: {
-//     reserved: true
-//   }
-//   sku: {
-//     name: sku
-//   }
-//   kind: 'linux'
-// }
-// resource appService 'Microsoft.Web/sites@2020-06-01' = {
-//   name: webAppName
-//   location: location
-//   properties: {
-//     serverFarmId: appServicePlan.id
-//     siteConfig: {
-//       linuxFxVersion: linuxFxVersion
-//     }
-//   }
-// }
-// resource srcControls 'Microsoft.Web/sites/sourcecontrols@2021-01-01' = {
-//   name: '${appService.name}/web'
-//   properties: {
-//     repoUrl: repositoryUrl
-//     branch: branch
-//     isManualIntegration: true
-//   }
-// }
-
 param repositoryUrl string = 'https://jameshoff@dev.azure.com/jameshoff/test-jph-2/_git/frontend'
 param branch string = 'master'
 
