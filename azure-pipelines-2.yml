@@ -6,7 +6,7 @@ pool:
 
 steps:
   - checkout: self
-    submodules: true
+    submodules: 'false'
 
   - bash: az bicep build --file templates/site.bicep
     displayName: 'Compile Bicep to ARM'
@@ -16,10 +16,10 @@ steps:
     displayName: Deploy Static Web App infra
     inputs:
       deploymentScope: Resource Group
-      azureResourceManagerConnection: test3
-      subscriptionId: test3
+      azureResourceManagerConnection: $(resourceManagerConnection)
+      subscriptionId: $(resourceManagerConnection)
       action: Create Or Update Resource Group
-      resourceGroupName: test3
+      resourceGroupName: $(resourceGroupName)
       location: eastus2
       templateLocation: Linked artifact
       csmFile: 'templates/site.json' # created by bash script

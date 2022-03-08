@@ -4,45 +4,23 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- master
+- stuff
 
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'test3'
-  projectName: 'jphwerwer4'
-  functionAppName: '$(projectName)'
-  environmentName: '$(projectName)'
+  azureSubscription: 'test2'
+
+  # Function app name
+  functionAppName: 'testjdxe2codh6xpo'
+
+  # Environment name
+  environmentName: 'testjdxe2codh6xpo'
+
+  # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-
-  azureServiceConnection: 'test3'
-  resourceGroupName: 'test3'
-  location: 'eastus'
-  templateFile: 'templates/main.bicep'
-
 stages:
-
-- stage: Infra
-  displayName: Infra stage
-  jobs:
-  - job: Infra
-    displayName: Infra
-    pool:
-      vmImage: $(vmImageName)
-
-    steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az --version
-          az group create --name $(resourceGroupName) --location $(location)
-          az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters projectName=$(projectName)
-
-
 - stage: Build
   displayName: Build stage
   jobs:
@@ -95,12 +73,9 @@ stages:
         deploy:
           steps:
           - task: AzureFunctionApp@1
-            displayName: 'Azure Functions App Deploy: $(projectName)'
+            displayName: 'Azure Functions App Deploy: testnlhl5dn64zuzq'
             inputs:
               azureSubscription: '$(azureSubscription)'
               appType: functionAppLinux
               appName: $(functionAppName)
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-
-
-
