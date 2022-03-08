@@ -330,9 +330,6 @@ resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
     provider: 'DevOps'
     repositoryUrl: repositoryUrl
     branch: branch
-    templateProperties: {
-      
-    }
     buildProperties: {
       skipGithubActionWorkflowGeneration: true
     }
@@ -353,4 +350,4 @@ resource staticWebAppSettings 'Microsoft.Web/staticSites/config@2021-03-01' = {
   }
 }
 
-//listSecrets(staticWebApp.id, staticWebApp.apiVersion).properties.apiKey
+output deployment_token string = listSecrets(staticWebApp.id, staticWebApp.apiVersion).properties.apiKey
