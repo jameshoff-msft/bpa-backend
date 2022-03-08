@@ -9,10 +9,10 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  #azureSubscription: 'test3'
-  #projectName: 'jphwerwer4'
-  #resourceGroupName: 'test3' 
-  #location: 'eastus'
+  azureSubscription: 'test3'
+  projectName: 'jphwerwer4'
+  resourceGroupName: 'test3' 
+  location: 'eastus'
 
   functionAppName: '$(projectName)'
   environmentName: '$(projectName)'
@@ -100,24 +100,6 @@ stages:
               appType: functionAppLinux
               appName: $(functionAppName)
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-
-- stage: AppSettings
-  displayName: Deploy Application Settings
-  jobs:
-  - job: AppSettings
-    displayName: AppSettings
-    pool:
-      vmImage: $(vmImageName)
-
-    steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az --version
-          az staticwebapp appsettings set -n MyStaticAppName --setting-names key1=val1 key2=val2
 
 
 

@@ -330,6 +330,9 @@ resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
     provider: 'DevOps'
     repositoryUrl: repositoryUrl
     branch: branch
+    templateProperties: {
+      
+    }
     buildProperties: {
       skipGithubActionWorkflowGeneration: true
     }
@@ -340,7 +343,12 @@ resource staticWebAppSettings 'Microsoft.Web/staticSites/config@2021-03-01' = {
   name: 'appsettings'
   kind: 'staticWebAppSettings'
   parent: staticWebApp
+  
   properties: {
-    foo : 'bar'
+      'COSMOS_DB_CONNECTION_STRING' : 'AccountEndpoint=https://${cosmosdbAccountName}.documents.azure.com:443/;AccountKey=${listKeys(accountName_resource.id, accountName_resource.apiVersion).primaryMasterKey};'
+      'COSMOS_DB_DB' : cosmosDbName
+      'COSMOS_DB_CONTAINER' : cosmosContainerName
+      'BLOB_STORAGE_CONNECTION_STRING' : 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
+      'BLOB_STORAGE_CONTAINER' : blobContainer.name
   }
 }
