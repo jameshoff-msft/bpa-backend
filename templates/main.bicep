@@ -336,3 +336,11 @@ resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
   }
 }
 
+resource staticWebAppSettings 'Microsoft.Web/staticSites/config@2021-03-01' = {
+  name: 'appsettings'
+  kind: 'staticWebAppSettings'
+  parent: staticWebApp
+  properties: {
+    foo : 'bar'
+  }
+}
