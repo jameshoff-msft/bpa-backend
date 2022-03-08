@@ -352,3 +352,5 @@ resource staticWebAppSettings 'Microsoft.Web/staticSites/config@2021-03-01' = {
       'BLOB_STORAGE_CONTAINER' : blobContainer.name
   }
 }
+
+//listSecrets(staticWebApp.id, staticWebApp.apiVersion).properties.apiKey
