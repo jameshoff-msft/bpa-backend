@@ -9,10 +9,10 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'test4connection'
-  projectName: 'jphdef2'
-  resourceGroupName: 'test4' 
-  location: 'eastus'
+  #azureSubscription: <name of your service connection>
+  #projectName: <unique project name>
+  #resourceGroupName: <existing resource group>
+  #location: <region ex: eastus>
 
   functionAppName: '$(projectName)'
   environmentName: '$(projectName)'
@@ -34,7 +34,7 @@ stages:
 
     steps:
     - checkout: self
-      submodules: true
+      submodules: 'true'
 
     - bash: az bicep build --file $(templateFile)
       displayName: 'Compile Bicep to ARM'
@@ -149,7 +149,7 @@ stages:
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
 
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
 
 - stage: Deploy
