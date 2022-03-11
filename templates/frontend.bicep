@@ -1,41 +1,32 @@
-param webAppName string = uniqueString(resourceGroup().id) // Generate unique String for web app name
-param sku string = 'S1' // The SKU of App Service Plan
-param linuxFxVersion string = 'node|14-lts' // The runtime stack of web app
-param location string = resourceGroup().location // Location for all resources
 param repositoryUrl string = 'https://github.com/jameshoff-msft/staticwebappstarter'
 param branch string = 'main'
+param webAppName string = 'reactstarterjph5gh'
 
-var appServicePlanName = toLower('AppServicePlan-${webAppName}')
-var webSiteName = toLower('wapp-${webAppName}')
-
-resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
-  name: appServicePlanName
-  location: location
-  properties: {
-    reserved: true
-  }
+resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
+  name: webAppName
+  location: 'eastus2'
   sku: {
-    name: sku
+    name: 'Standard'
+    tier: 'Standard'
   }
-  kind: 'linux'
-}
-
-resource appService 'Microsoft.Web/sites@2020-06-01' = {
-  name: webSiteName
-  location: location
   properties: {
-    serverFarmId: appServicePlan.id
-    siteConfig: {
-      linuxFxVersion: linuxFxVersion
-    }
-  }
-}
-
-resource srcControls 'Microsoft.Web/sites/sourcecontrols@2021-01-01' = {
-  name: '${appService.name}/web'
-  properties: {
-    repoUrl: repositoryUrl
+    // The provider, repositoryUrl and branch fields are required for successive deployments to succeed
+    // for more details see: https://github.com/Azure/static-web-apps/issues/516
+    provider: 'GitHub'
+    repositoryUrl: repositoryUrl
+    repositoryToken:'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'
     branch: branch
-    isManualIntegration: true
   }
 }
+
+resource staticWebAppSettings 'Microsoft.Web/staticSites/config@2021-03-01' = {
+  name: 'appsettings'
+  kind: 'staticWebAppSettings'
+  parent: staticWebApp
+  
+  properties: {
+    'foo':'bar'
+  }
+}
+
+output deployment_token string = listSecrets(staticWebApp.id, staticWebApp.apiVersion).properties.apiKey

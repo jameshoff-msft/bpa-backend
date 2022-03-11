@@ -9,18 +9,19 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  #azureSubscription: <name of your service connection>
-  #projectName: <unique project name>
-  #resourceGroupName: <existing resource group>
-  #location: <region ex: eastus>
+  azureSubscription: ''
+  projectName: ''
+  resourceGroupName: ''
+  location: 'eastus'
+  repositoryUrl: 'https://github.com/jameshoff-msft/staticwebappstarter'
+  repositoryToken: ''
 
   functionAppName: '$(projectName)'
   environmentName: '$(projectName)'
   vmImageName: 'ubuntu-latest'
   azureServiceConnection: $(azureSubscription)
   templateFile: 'templates/main.bicep'
-  deploymentOutputs: ''
-  deployment_token: ''
+
 
 stages:
 
@@ -52,67 +53,10 @@ stages:
         overrideParameters: >-
           -location $(location)
           -projectName $(projectName)
+          -repositoryUrl $(repositoryUrl)
+          -repositoryToken $(repositoryToken)
         csmFile: 'templates/main.json' # created by bash script
         deploymentMode: Incremental
-        deploymentOutputs: deploymentOutputs
-
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          echo "deployment Outputs: $(deploymentOutputs)"
-        
-
-    - task: PowerShell@2
-      name: 'SetDeploymentOutputVariables'
-      displayName: 'Set Deployment Output Variables'
-      inputs:
-        targetType: inline
-        script: |
-          $armOutputObj = '$(deploymentOutputs)' | ConvertFrom-Json
-          $armOutputObj.PSObject.Properties | ForEach-Object {
-            $keyname = $_.Name
-            $value = $_.Value.value
-
-            # Creates a standard pipeline variable
-            Write-Output "##vso[task.setvariable variable=$keyName;issecret=false]$value"
-
-            # Display keys in pipeline
-            Write-Output "output variable: $keyName $value"
-          }
-        pwsh: true
-
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          echo "deployment Outputs2: $(deploymentOutputs)"
-          echo "deployment Outputs2: $(deployment_token)"
-
-    - task: AzureStaticWebApp@0
-      inputs:
-        app_location: './ui'
-        api_location: ''
-        output_location: './out'
-        azure_static_web_apps_api_token: $(deployment_token)
-
-
-
-
-    #- task: AzureCLI@2
-    #  inputs:
-    #    azureSubscription: $(azureServiceConnection)
-    #    scriptType: bash
-    #    scriptLocation: inlineScript
-    #    inlineScript: |
-    #      az --version
-    #      az group create --name $(resourceGroupName) --location $(location)
-    #      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters projectName=$(projectName) location=$(location)
-
 
 
 - stage: Build

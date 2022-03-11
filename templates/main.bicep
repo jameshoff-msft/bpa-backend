@@ -1,5 +1,9 @@
 param location string
 param projectName string 
+param repositoryToken string
+param repositoryUrl string
+param branch string = 'main'
+
 param cosmosDbName string = projectName
 param cosmosContainerName string = projectName
 param storageAccountName string = projectName
@@ -314,8 +318,6 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
   ]
 }
 
-param repositoryUrl string = 'https://jameshoff@dev.azure.com/jameshoff/test-jph-2/_git/frontend'
-param branch string = 'master'
 
 resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
   name: webAppName
@@ -327,11 +329,12 @@ resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
   properties: {
     // The provider, repositoryUrl and branch fields are required for successive deployments to succeed
     // for more details see: https://github.com/Azure/static-web-apps/issues/516
-    provider: 'DevOps'
+    provider: 'GitHub'
     repositoryUrl: repositoryUrl
+    repositoryToken: repositoryToken
     branch: branch
     buildProperties: {
-      skipGithubActionWorkflowGeneration: true
+      apiLocation: 'api'
     }
   }
 }
@@ -349,5 +352,3 @@ resource staticWebAppSettings 'Microsoft.Web/staticSites/config@2021-03-01' = {
       'BLOB_STORAGE_CONTAINER' : blobContainer.name
   }
 }
-
-output deployment_token string = listSecrets(staticWebApp.id, staticWebApp.apiVersion).properties.apiKey
