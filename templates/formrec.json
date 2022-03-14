@@ -4,6 +4,9 @@
     "parameters": {
          "name": {
             "type": "string"
+        },
+        "resourceGroupId": {
+            "type": "string"
         }
     },
     "variables": {
@@ -145,7 +148,7 @@
                                     {
                                         "name": "[variables('privateEndpoints')[copyIndex()].privateEndpoint.name]",
                                         "properties": {
-                                            "privateLinkServiceId": "[concat(variables('resourceGroupId'), '/providers/Microsoft.CognitiveServices/accounts/', parameters('name'))]",
+                                            "privateLinkServiceId": "[concat(parameters('resourceGroupId'), '/providers/Microsoft.CognitiveServices/accounts/', parameters('name'))]",
                                             "groupIds": "[variables('privateEndpoints')[copyIndex()].privateEndpoint.properties.privateLinkServiceConnections[0].properties.groupIds]"
                                         }
                                     }
@@ -187,7 +190,7 @@
                                     {
                                         "name": "privatelink-cognitiveservices-azure-com",
                                         "properties": {
-                                            "privateDnsZoneId": "[concat(variables('resourceGroupId'), '/providers/Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com')]"
+                                            "privateDnsZoneId": "[concat(parameters('resourceGroupId'), '/providers/Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com')]"
                                         }
                                     }
                                 ]

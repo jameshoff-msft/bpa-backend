@@ -57,6 +57,16 @@ stages:
           -repositoryToken $(repositoryToken)
         csmFile: 'templates/main.json' # created by bash script
         deploymentMode: Incremental
+    - task: AzureCLI@2
+      displayName: Azure CLI
+      inputs:
+        azureSubscription: $(azureSubscription)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          resourceGroupId=$(az group show --name $(resourceGroupName) --query id --output tsv)
+          az --version
+          az deployment group create --resource-group $(resourceGroupName) --template-file templates/formrec.json --parameters name=$(projectName) resourceGroupId=$resourceGroupId
 
 
 - stage: Build
