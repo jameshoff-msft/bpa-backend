@@ -2,6 +2,8 @@ param location string
 param projectName string 
 param repositoryToken string
 param repositoryUrl string
+param formrecApiKey string
+param formrecEndpoint string
 param branch string = 'main'
 
 param cosmosDbName string = projectName
@@ -306,6 +308,14 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
         {
           'name': 'LANGUAGE_STUDIO_PROJECT'
           'value': 'airangerscner4' //languageStudioProjectName
+        }
+        {
+          'name': 'FORMREC_APIKEY'
+          'value': formrecApiKey
+        }
+        {
+          'name': 'FORMREC_ENDPOINT'
+          'value': formrecEndpoint
         }
         // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
         // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish

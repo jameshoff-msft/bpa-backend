@@ -40,6 +40,19 @@ stages:
     - bash: az bicep build --file $(templateFile)
       displayName: 'Compile Bicep to ARM'
 
+    - task: AzureCLI@2
+      displayName: Azure CLI
+      inputs:
+        azureSubscription: $(azureSubscription)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az --version
+          resourceGroupId=$(az group show --name $(resourceGroupName) --query id --output tsv)
+          $formrecout = $(az deployment group create --resource-group $(resourceGroupName) --template-file templates/formrec.json --parameters name=$(projectName) resourceGroupId=$resourceGroupId)
+          echo "##vso[task.setvariable variable=formrecendpoint]$(echo $formrecout | jq -r '.outputs.formrecendpoint.value')"
+          echo "##vso[task.setvariable variable=formrecapikey]$(echo $formrecout | jq -r '.outputs.formreckey.value')"
+
     - task: AzureResourceManagerTemplateDeployment@3
       name: DeployStaticWebAppInfra
       displayName: Deploy Static Web App infra
@@ -55,18 +68,11 @@ stages:
           -projectName $(projectName)
           -repositoryUrl $(repositoryUrl)
           -repositoryToken $(repositoryToken)
+          -formrecApiKey $(formrecapikey)
+          -formrecEndpoint $(formrecendpoint)
         csmFile: 'templates/main.json' # created by bash script
         deploymentMode: Incremental
-    - task: AzureCLI@2
-      displayName: Azure CLI
-      inputs:
-        azureSubscription: $(azureSubscription)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az --version
-          resourceGroupId=$(az group show --name $(resourceGroupName) --query id --output tsv)
-          az deployment group create --resource-group $(resourceGroupName) --template-file templates/formrec.json --parameters name=$(projectName) resourceGroupId=$resourceGroupId
+    
 
 
 - stage: Build
