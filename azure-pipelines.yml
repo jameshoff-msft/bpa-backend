@@ -52,8 +52,8 @@ stages:
           echo "starting"
           formrecout=`az deployment group create --resource-group $(resourceGroupName) --template-file templates/formrec.json --parameters name=$(projectName) resourceGroupId=$resourceGroupId`
           echo "ended"
-          echo "##vso[task.setvariable variable=formrecendpoint]$(echo $formrecout | jq -r '.outputs.formrecendpoint.value')"
-          echo "##vso[task.setvariable variable=formrecapikey]$(echo $formrecout | jq -r '.outputs.formreckey.value')"
+          echo "##vso[task.setvariable variable=formrecendpoint]$(echo $formrecout | jq -r '.properties.outputs.formrecendpoint.value')"
+          echo "##vso[task.setvariable variable=formrecapikey]$(echo $formrecout | jq -r '.properties.outputs.formreckey.value')"
 
     - task: AzureResourceManagerTemplateDeployment@3
       name: DeployStaticWebAppInfra
