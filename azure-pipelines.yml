@@ -64,8 +64,8 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          resourceGroupId=$(az group show --name $(resourceGroupName) --query id --output tsv)
           az --version
+          resourceGroupId=$(az group show --name $(resourceGroupName) --query id --output tsv)
           az deployment group create --resource-group $(resourceGroupName) --template-file templates/formrec.json --parameters name=$(projectName) resourceGroupId=$resourceGroupId
 
 

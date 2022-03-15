@@ -1,5 +1,0 @@
-{
-    "appService.showBuildDuringDeployPrompt": false,
-    "appService.defaultWebAppToDeploy": "/subscriptions/19311b1a-e732-47aa-9fad-1426803fbc30/resourceGroups/test3/providers/Microsoft.Web/sites/webappjphwerwer3",
-    "appService.deploySubpath": "."
-}

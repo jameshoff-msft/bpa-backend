@@ -2,6 +2,7 @@ import { AzureFunction, Context } from "@azure/functions"
 import { Ocr } from "../services/ocr"
 import { ComputerVisionModels } from "@azure/cognitiveservices-computervision"
 import { LanguageStudio } from "../services/languagestudio";
+import { FormRec } from "../services/formrec";
 import { CosmosDB } from "../services/cosmosdb";
 
 const sleep = (ms: number) => {
@@ -22,6 +23,12 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
                 const studio : LanguageStudio = new LanguageStudio(process.env.LANGUAGE_STUDIO_ENDPOINT, process.env.LANGUAGE_STUDIO_APIKEY)
                 const nerResults = await studio.customNER(context, ocrText, process.env.LANGUAGE_STUDIO_PROJECT)
                 //await sleep(3000)
+
+                context.log("form rec")
+                const formrec : FormRec = new FormRec(process.env.LANGUAGE_STUDIO_ENDPOINT, process.env.LANGUAGE_STUDIO_APIKEY)
+                const formRecResults  = await formrec.generalDoc(context, myBlob)
+
+
                 context.log("ready to save results");
                 
                 if(nerResults){
@@ -31,7 +38,8 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
                     const data = {
                         "filename" : context.bindingData.blobTrigger,
                         "ner" : nerResults,
-                        "ocr" : ocrText
+                        "ocr" : ocrText,
+                        "formrec" : formRecResults
                     }
                     const c = await cosmos.create(context, data)
                     context.log("done")

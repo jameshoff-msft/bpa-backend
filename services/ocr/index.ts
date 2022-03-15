@@ -1,8 +1,6 @@
 import { ComputerVisionClient, ComputerVisionModels } from "@azure/cognitiveservices-computervision"
 import { ApiKeyCredentials } from "@azure/ms-rest-js"
 import { Context } from "@azure/functions"
-import { Readable } from "stream"
-import { isContext } from "vm"
 
 export class Ocr {
 
