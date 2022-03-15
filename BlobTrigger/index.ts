@@ -25,7 +25,7 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
                 //await sleep(3000)
 
                 context.log("form rec")
-                const formrec : FormRec = new FormRec(process.env.LANGUAGE_STUDIO_ENDPOINT, process.env.LANGUAGE_STUDIO_APIKEY)
+                const formrec : FormRec = new FormRec(process.env.FORMREC_ENDPOINT, process.env.FORMREC_APIKEY)
                 const formRecResults  = await formrec.generalDoc(context, myBlob)
 
 

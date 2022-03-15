@@ -1,19 +1,20 @@
-const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer"
 import { Context } from "@azure/functions"
 
 
 export class FormRec {
 
-    private _client : any
+    private _client : DocumentAnalysisClient
 
     constructor(endpoint: string, apikey: string) {
         this._client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apikey));
     }
 
     public generalDoc = async (context: Context, file: Buffer) => {
-
+        context.log(JSON.stringify(this._client))
+        
         try {
-            const poller = await this._client.beginExtractGeneralDocument(file);
+            const poller = await this._client.beginExtractGenericDocument(file);
             const { keyValuePairs, entities } = await poller.pollUntilDone();
 
             return { keyValuePairs, entities }
