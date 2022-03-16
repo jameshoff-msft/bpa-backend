@@ -56,32 +56,21 @@ export class LanguageStudio {
     public ner = async (context: Context, text : string) => {
         context.log(`entered customNER`)
         try {
-            const body = {documents:[{language:"en", "id":"1","text":text}] }
+            const body = {documents:[{language:"en", "id":"1","text":text.replace('"','')}] }
             const headers = {
                 'Ocp-Apim-Subscription-Key': this._apikey,
                 'Content-Type': 'application/json'
             };
 
             const url = `${this._endpoint}text/analytics/v3.2-preview.2/entities/recognition/general?stringIndexType=TextElement_v8`
+            context.log(url)
 
             const requestResponse = await axios.post(url, body, { headers })
 
-            let status = "not started"
-            let retrieveResponse = null
-            while (status != "succeeded") {
-                context.log("ner loop")
-                retrieveResponse = await axios.get(`${requestResponse.headers["operation-location"]}`, { headers })
-                context.log(JSON.stringify(retrieveResponse.data))
+            if (requestResponse) {
                 //await this.sleep(1000)
-                status = retrieveResponse.data.status
-                context.log(`ner custom status : ${status}`)
-            }
-            //await this.sleep(2000)
-            context.log(`exited customNER status loop`)
-            if (retrieveResponse) {
-                //await this.sleep(1000)
-                context.log(`returning response ${retrieveResponse.data}`)
-                return retrieveResponse.data
+                context.log(`returning response ${requestResponse.data}`)
+                return requestResponse.data
             } else {
                 context.log("no response")
             }

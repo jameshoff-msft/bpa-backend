@@ -18,6 +18,7 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
             const ocrResults : ComputerVisionModels.ReadResult[] = await ocr.execute(context, myBlob)
             if(ocrResults){
                 const ocrText : string = ocr.toText(context, ocrResults)
+                context.log(`text size : ${ocrText.length}`)
 
                 context.log("language studio")
                 const studio : LanguageStudio = new LanguageStudio(process.env.LANGUAGE_STUDIO_ENDPOINT, process.env.LANGUAGE_STUDIO_APIKEY)
@@ -25,8 +26,6 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
 
                 const studio2 : LanguageStudio = new LanguageStudio(process.env.LANGUAGE_STUDIO_PREBUILT_ENDPOINT, process.env.LANGUAGE_STUDIO_PREBUILT_APIKEY)
                 const nerResults = await studio2.ner(context, ocrText)
-
-
                 
                 //await sleep(3000)
 
@@ -64,7 +63,7 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
         
     } catch(err){
         context.log(err)
-        throw Error(`blob task failed ${err}`)
+        //throw Error(`blob task failed ${err}`)
     }
 };
 
