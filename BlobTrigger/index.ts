@@ -21,7 +21,13 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
 
                 context.log("language studio")
                 const studio : LanguageStudio = new LanguageStudio(process.env.LANGUAGE_STUDIO_ENDPOINT, process.env.LANGUAGE_STUDIO_APIKEY)
-                const nerResults = await studio.customNER(context, ocrText, process.env.LANGUAGE_STUDIO_PROJECT)
+                const cnerResults = await studio.customNER(context, ocrText, process.env.LANGUAGE_STUDIO_PROJECT)
+
+                const studio2 : LanguageStudio = new LanguageStudio(process.env.LANGUAGE_STUDIO_PREBUILT_ENDPOINT, process.env.LANGUAGE_STUDIO_PREBUILT_APIKEY)
+                const nerResults = await studio2.ner(context, ocrText)
+
+
+                
                 //await sleep(3000)
 
                 context.log("form rec")
@@ -38,6 +44,7 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
                     const data = {
                         "filename" : context.bindingData.blobTrigger,
                         "ner" : nerResults,
+                        "cner" : cnerResults,
                         "ocr" : ocrText,
                         "formrec" : formRecResults
                     }
