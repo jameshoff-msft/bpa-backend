@@ -38,7 +38,7 @@
 ## Architecture
 (James to udpate) Once you've created a high-level Resource Group, you'll create a high-level Azure DevOps pipeline and import/clone this repo, automatically importing helper libraries and taking advantage of Azure functions to deploy the set of Azure Cognitive Services and manage all of the new Azure module credentials, in the background, within your newly created pipeline. Once the pipeline is deployed, a static webapp will be created with your newly customizable POC UI for document processing!
 
-![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/sample_architecture3.png)
+![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/sample_architecture3.jpg)
 
 ## Currently Inluded Algorithms
 The initial release includes two top NLP use cases, text classification, and custom named entity recognition. Additional tasks and models are on the roadmap for inclusion (see Roadmap section later in this document).
