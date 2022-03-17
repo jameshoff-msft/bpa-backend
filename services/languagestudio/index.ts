@@ -47,7 +47,6 @@ export class LanguageStudio {
             }
         } catch (err) {
             context.log(err)
-            throw Error(err)
         }
         return []
     }
@@ -56,7 +55,9 @@ export class LanguageStudio {
     public ner = async (context: Context, text : string) => {
         context.log(`entered customNER`)
         try {
-            const body = {documents:[{language:"en", "id":"1","text":text.replace('"','')}] }
+            let max = 5000
+            if(text.length < max) max = text.length
+            const body = {documents:[{language:"en", "id":"1","text":text.substring(0,max)}] }
             const headers = {
                 'Ocp-Apim-Subscription-Key': this._apikey,
                 'Content-Type': 'application/json'
@@ -67,16 +68,15 @@ export class LanguageStudio {
 
             const requestResponse = await axios.post(url, body, { headers })
 
-            if (requestResponse) {
+            if (requestResponse.data.documents[0]) {
                 //await this.sleep(1000)
                 context.log(`returning response ${requestResponse.data}`)
-                return requestResponse.data
+                return requestResponse.data.documents[0].entities
             } else {
                 context.log("no response")
             }
         } catch (err) {
             context.log(err)
-            throw Error(err)
         }
         return []
     }

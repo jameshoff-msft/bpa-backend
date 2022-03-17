@@ -33,7 +33,6 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
                 const formrec : FormRec = new FormRec(process.env.FORMREC_ENDPOINT, process.env.FORMREC_APIKEY)
                 const formRecResults  = await formrec.generalDoc(context, myBlob)
 
-
                 context.log("ready to save results");
                 
                 if(nerResults){
@@ -45,7 +44,7 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: any
                         "ner" : nerResults,
                         "cner" : cnerResults,
                         "ocr" : ocrText,
-                        "formrec" : formRecResults
+                        "formrecGeneralDoc" : formRecResults
                     }
                     const c = await cosmos.create(context, data)
                     context.log("done")
