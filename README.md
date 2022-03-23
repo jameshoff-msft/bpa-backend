@@ -162,7 +162,7 @@ We'll only need to update lines 12-17, with the following instructions instructi
   vii. Add your own description  
   viii. Select Generate token  
   ix.  Copy your newly generated token  
-  **Note**: *be sure to save this token for completing pipeline setup, else this token will need to be regenerated*  
+  **Note**: *Be sure to save this token for completing pipeline setup, else this token will need to be regenerated*  
   x.   Paste your newly generated token in the repositoryToken field  
 
 ## 3. Save and Run!
@@ -187,7 +187,7 @@ Insert any commit message. You should see the pipeline stages workflow updating.
  
  ## 5. Load Documents!
 Use the Select PDF File to load your documents  
-  **Note**: *your documents should be in pdf/image format. The first document loaded may take several minutes. However, all subsequent documents should be processed much faster*
+  **Note**: *Your documents should be in pdf/image format. The first document loaded may take several minutes. However, all subsequent documents should be processed much faster*
  
  ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/web_app_blank2.png)
  
