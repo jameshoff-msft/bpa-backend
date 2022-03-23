@@ -35,14 +35,23 @@
 
 
 ## Architecture
-(James to udpate) Once you've created a high-level Resource Group, you'll create a high-level Azure DevOps pipeline and import/clone this repo, automatically importing helper libraries and taking advantage of Azure functions to deploy the set of Azure Cognitive Services and manage all of the new Azure module credentials, in the background, within your newly created pipeline. Once the pipeline is deployed, a static webapp will be created with your newly customizable POC UI for document processing!
+Once you've created a high-level Resource Group, you'll create a high-level Azure DevOps pipeline and import/clone this repo, automatically importing helper libraries and taking advantage of Azure functions to deploy the set of Azure Cognitive Services and manage all of the new Azure module credentials, in the background, within your newly created pipeline. Once the pipeline is deployed, a static webapp will be created with your newly customizable POC UI for document processing!
 
 ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/sample_architecture3.jpg)
 
 ## Currently Inluded Algorithms
-The initial release includes two top NLP use cases, text classification, and custom named entity recognition. Additional tasks and models are on the roadmap for inclusion (see Roadmap section later in this document).
+The initial release includes top NLP use cases, from three Azure Cognitive Services: Form Recognizer, Cognitive Service for Language, and Speech Service. Brief descriptions some of the capabilities are included below, more detailed information can be found in the documentation sites for each of the services, listed in the References section at the end of this document.  
+
+Additional tasks and models are on the roadmap for inclusion (see Roadmap section later in this document).  
+
+#### OCR
+Form Recognizer's Read feature is called for image-based documents (.pdf, .jpg). This feature extracts text lines, words, detected languages, and handwritten style if detected.  
+#### Key Phrase Extraction
+This pre-configured feature evaluates unstructured text, and for each input document, returns a list of key phrases and main points in the text.
 #### Text Classification
-Text classification is a supervised learning method of learning and predicting the category or the class of a document given its text content. The state-of-the-art methods are based on neural networks of different architectures as well as pre-trained language models or word embeddings.
+Text classification is a supervised learning method of learning and predicting the category or the class of a document given its text content. The state-of-the-art methods are based on neural networks of different architectures as well as pre-trained language models or word embeddings.  
+#### Named Entity Recognition  
+Named Entity Recognition (NER) is one of the features offered by Azure Cognitive Service for Language, a collection of machine learning and AI algorithms in the cloud for developing intelligent applications that involve written language. The NER feature can identify and categorize entities in unstructured text. For example: people, places, organizations, and quantities
 #### Custom Named Entity Recognition
 Named Entity Recognition (NER) is the task of detecting and classifying real-world objects mentioned in text. Common named entities include person names, locations, organizations, etc. The state-of-the art NER methods include combining Long Short-Term Memory neural network with Conditional Random Field (LSTM-CRF) and pretrained language models like BERT.
 
@@ -197,14 +206,19 @@ You can further customize your UI via the front end repo https://github.com/<you
 | Priority | Item |
 | ------- | ------------- |
 | Impending | Adding instructions on basic UI customizations (e.g. Adding header graphics, changing title, etc..) |
-| Impending | Add standard NER capability from Language Service [What is Named Entity Recognition (NER) in Azure Cognitive Service for Language](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/overview#:~:text=Named%20Entity%20Recognition%20(NER)%20is,categorize%20entities%20in%20unstructured%20text.)  |
+| Impending | Additional services provided by Language Service [What is Named Entity Recognition (NER) in Azure Cognitive Service for Language](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/overview#:~:text=Named%20Entity%20Recognition%20(NER)%20is,categorize%20entities%20in%20unstructured%20text.)  |
+| Impending | Additoinal services provided by Azure Form Recognizer |  
+| Impending | UI/UX Design Enhancements |
 | TBD | Add text summarization |
-| TBD | ... |
+| TBD | Compability with Azure Synapse data stores |
  
 
 ## References
 | Subject | Source (Link) |
 | ------- | ------------- |
+| Azure Form Recognizer Cognitive Service | https://azure.microsoft.com/en-us/services/form-recognizer/#documentation |
+| Azure Cognitive Service for Language| https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/overview |
+| Azure Speech Service | https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/overview |
 | React source template | This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) |
 | Custom NER |  https://github.com/microsoft/nlp-recipes/tree/master/examples/named_entity_recognition |
 | Text Classification | https://github.com/microsoft/nlp-recipes/tree/master/examples/text_classification |
