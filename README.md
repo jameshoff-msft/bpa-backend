@@ -12,7 +12,6 @@
 - [Currently Inluded Algorithms](#currently-inluded-algorithms)  
 - [Prerequisities](#prerequisities)  
 - [Installation Steps](#installation-steps)  
-  - [Clone starter backend repo](#1-clone-the-starter-backend-repo)  
   - [Set Up Resource Group](#2-create-a-resource-group-in-your-azure-portal)  
   - [Set up Azure DevOps Pipeline](#3-setting-up-azure-devops-pipeline)  
     - [Navigate to Azure](#1-navigate-to-azure-devops-wwwdevazurecom)
@@ -58,6 +57,7 @@ There are a few standard labeling schemes and you can find the details [here](ht
 
 ## Prerequisities
 1. Github account
+**Note**: *a Microsoft organization github account is **not** required*
 2. Ensure your subscription has Microsoft.DocumentDB enabled  
 To check:  
     a. Go to your subscription within portal.azure.com  
@@ -69,12 +69,9 @@ To check:
  "You must create your first Face, Language service, or Computer Vision resources from the Azure portal to review and acknowledge the terms and conditions. You can do so here: Face, Language service, Computer Vision. After that, you can create subsequent resources using any deployment tool (SDK, CLI, or ARM template, etc) under the same Azure subscription."
 
 ## Installation Steps
-### 1. Clone the starter backend repo
-Clone https://github.com/jameshoff-msft/bpa-backend to your github account  
-**Note**: *a Microsoft organization github account is **not** required*
-### 2. Create a Resource Group in your Azure Portal
+### 1. Create a Resource Group in your Azure Portal
 Select your preferred Region
-### 3. Setting up Azure DevOps Pipeline
+### 2. Setting up Azure DevOps Pipeline
 **Note**: You'll use Azure DevOps for running the multi-stage pipeline with build. If you don't already have an Azure DevOps organization, create one by following the instructions at [Quickstart: Create an organization or project collection](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/create-organization?view=azure-devops).)
 
 
@@ -145,7 +142,7 @@ We'll only need to update lines 12-17, with the following instructions instructi
 2. Fill in Project name - must be unique (this name is used across most of the services created during this accelerator)
 3. Fill in resource group name
 4. Select your desired location
-5. Select your previously cloned repo's staticwebappstarter URI.
+5. Repository url - replace with your previously cloned repo URL (github.com/<my account name>/staticwebappstarter)
 6. Find your repository token
   i.   On your github repo page, click your profile  
   ii.  Select Settings  
@@ -157,26 +154,29 @@ We'll only need to update lines 12-17, with the following instructions instructi
   viii. Select Generate token  
   ix.  Copy your newly generated token  
   **Note**: *be sure to save this token for completing pipeline setup, else this token will need to be regenerated*  
-  v.   Paste your newly generated token in the repositoryToken field  
-  vi.  Under Select scopes, select the checkbox for workflow  
+  x.   Paste your newly generated token in the repositoryToken field  
 
-## 4. Save and Run!
+## 3. Save and Run!
 Insert any commit message. You should see the pipeline stages workflow updating. Pipeline deployment will generally take several minutes. Monitor the status of your runs: 
 
  ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/model_pipeline_run_part1.png)
  
  You can drill into each stage for a more detailed log.
  
- ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/model_pipeline_run_part1_detailed_log.png)
+ ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/model_pipeline_run_part1_detailed_log.png)  
+  
+  When you run the pipeline, you'll most likely receive a "slient" notification to grant permission during the deploy stage, near the end of the pipeline run. You'll need to grant permission before pipeline will finish executing.
+  
+  ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/grant_permission.png)
  
- ## 5. Launch App
+ ## 4. Launch App
 1. Navigate to your Resource Group within your Azure Portal <insert static web app screenshot here>
 2. Select your static webapp
 3. Within the default Overview pane, Select your URL to navigate to the WebApp, this take you to the newly launched WebApp!
  
  ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/find_static_web_app2.png)
  
- ## 6. Load Documents!
+ ## 5. Load Documents!
 Use the Select PDF File to load your documents  
   **Note**: *your documents should be in pdf/image format. The first document loaded may take several minutes. However, all subsequent documents should be processed much faster*
  
