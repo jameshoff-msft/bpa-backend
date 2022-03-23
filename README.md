@@ -8,6 +8,7 @@
 
 
 - [Overview](#overview)  
+- [Responsible Use of AI](#-responsible-use-of-ai)
 - [Architecture](#architecture)  
 - [Currently Inluded Algorithms](#currently-inluded-algorithms)  
 - [Prerequisities](#prerequisities)  
@@ -33,6 +34,12 @@
 
 ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/web_app_ui3.png)
 
+## Responsible Use of AI
+An AI system includes not only the technology, but also the people who will use it, the people who will be affected by it, and the environment in which it is deployed. Creating a system that is fit for its intended purpose requires an understanding of how the technology works, its capabilities and limitations, and how to achieve the best performance.
+
+Microsoft provides transparency notes to help you understand how our AI technology works. This includes the choices system owners can make that influence system performance and behavior, and the importance of thinking about the whole system, including the technology, the people, and the environment. You can use transparency notes when developing or deploying your own system, or share them with the people who will use or be affected by your system.
+
+Transparency notes are part of a broader effort at Microsoft to put our AI principles into practice. To find out more, see [Microsoft's AI Principles](https://www.microsoft.com/ai/responsible-ai)
 
 ## Architecture
 Once you've created a high-level Resource Group, you'll create a high-level Azure DevOps pipeline and import/clone this repo, automatically importing helper libraries and taking advantage of Azure functions to deploy the set of Azure Cognitive Services and manage all of the new Azure module credentials, in the background, within your newly created pipeline. Once the pipeline is deployed, a static webapp will be created with your newly customizable POC UI for document processing!
@@ -62,7 +69,9 @@ I-LOC: Location
 I-ORG: Organization  
 I-PER: Person  
 
-There are a few standard labeling schemes and you can find the details [here](http://cs229.stanford.edu/proj2005/KrishnanGanapathy-NamedEntityRecognition.pdf). The data can also be labeled with custom entities as required by the use case.
+There are a few standard labeling schemes and you can find the details [here](http://cs229.stanford.edu/proj2005/KrishnanGanapathy-NamedEntityRecognition.pdf). The data can also be labeled with custom entities as required by the use case.  
+#### Speech-to-text
+Batch speech-to-text enables asynchronous speech-to-text transcription of large volumes of speech audio data stored in Azure Blob Storage. In addition to converting speech audio to text, batch speech-to-text allows for diarization and sentiment analysis.  
 
 ## Prerequisities
 1. Github account
@@ -193,9 +202,9 @@ Use the Select PDF File to load your documents
  
  ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/web_app_file_upload_successful.png)
 
-Check for you newly found custom entities!
+Check for your newly found custom entities!
  
-  ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/web_app_ui2.png)  
+  ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/web_app_ui3.png)  
   
 You can further customize your UI via the front end repo https://github.com/<your github account>/staticwebappstarter. Simple instructions on how to quickly do so are coming soon
 
