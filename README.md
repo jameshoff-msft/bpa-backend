@@ -32,7 +32,7 @@
 - [References](#references)  
 ---
 
-![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/web_app_ui3.png)
+![](https://github.com/jameshoff-msft/bpa-backend/blob/master/images/web_app_ui3.png)
 
 
 ## Architecture
