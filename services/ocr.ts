@@ -1,6 +1,6 @@
 import { ComputerVisionClient, ComputerVisionModels } from "@azure/cognitiveservices-computervision"
 import { ApiKeyCredentials } from "@azure/ms-rest-js"
-import { Context } from "@azure/functions"
+import { BpaServiceObject } from "../engine/types";
 
 export class Ocr {
 
@@ -15,9 +15,25 @@ export class Ocr {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    public execute = async (context: Context, file: Buffer): Promise<ComputerVisionModels.ReadResult[]> => {
+    public process = async (input : BpaServiceObject) : Promise<BpaServiceObject> => {
+        const readResult : ComputerVisionModels.ReadResult[] = await this.execute(input.data)
+        console.log("1")
+        const textOut : string = this.toText(readResult)
+        console.log("2")
+        const result : BpaServiceObject = {
+            data : textOut,
+            type : 'text',
+            label : 'ocr',
+            bpaId : input.bpaId,
+            projectName : input.projectName
+        }
+        console.log("3")
+        return result
+    }
+
+    public execute = async (fileBuffer: Buffer): Promise<ComputerVisionModels.ReadResult[]> => {
         try { 
-            let fileStream = await this._client.readInStream(file);
+            let fileStream = await this._client.readInStream(fileBuffer);
             //Operation ID is last path segment of operationLocation (a URL)
             let operation: string = fileStream.operationLocation.split('/').slice(-1)[0];
             // Wait for read recognition to complete
@@ -25,22 +41,22 @@ export class Ocr {
             let status: string = ''
             let result: ComputerVisionModels.GetReadResultResponse = null
             while (status !== 'succeeded') {
-                context.log("in ocr read loop")
+                console.log("in ocr read loop")
                 result = await this._client.getReadResult(operation);
                 status = result.status
-                context.log(`ocr status: ${status}`)
-                //await this.sleep(1000);
+                console.log(`ocr status: ${status}`)
+                await this.sleep(1000);
             }
-            context.log("completed")
+            console.log("completed")
             return result.analyzeResult.readResults;
         } catch (err) {
-            context.log(`error in ocr execute ${err}`)
+            console.log(`error in ocr execute ${err}`)
         }
         return null
     }
 
-    public toText = (context : Context, results: ComputerVisionModels.ReadResult[]): string => {
-        context.log(`converting ocr output to string`)
+    public toText = (results: ComputerVisionModels.ReadResult[]): string => {
+        console.log(`converting ocr output to string`)
         let outString = ""
         for (const page of results) {
             for (const line of page.lines) {

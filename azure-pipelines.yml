@@ -12,8 +12,8 @@ variables:
   azureSubscription: ''
   projectName: ''
   resourceGroupName: ''
-  location: 'eastus'
-  repositoryUrl: 'https://github.com/jameshoff-msft/staticwebappstarter'
+  location: ''
+  repositoryUrl: ''
   repositoryToken: ''
 
   functionAppName: '$(projectName)'

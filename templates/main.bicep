@@ -4,7 +4,10 @@ param repositoryToken string
 param repositoryUrl string
 param formrecApiKey string
 param formrecEndpoint string
-param branch string = 'main'
+
+param webappLocation string = 'eastus2'
+
+//param branch string = 'main'
 
 param cosmosDbName string = projectName
 param cosmosContainerName string = projectName
@@ -26,8 +29,8 @@ param primaryRegion string = location
 // param secondaryRegion string 
 
 //language services
-param languageServicesLocation string = 'westus' //fixed...not available everywhere
-param languageStudioProjectName string = projectName
+param languageServicesLocation string = 'westus2' //fixed...not available everywhere
+//param languageStudioProjectName string = projectName
 
 
 @allowed([
@@ -196,8 +199,6 @@ resource cogServicesAccount 'Microsoft.CognitiveServices/accounts@2021-10-01' = 
   }
 }
 
-
-
 resource languageServicesAccount 'Microsoft.CognitiveServices/accounts@2021-10-01' = {
   name: languageServicesName
   location: languageServicesLocation
@@ -209,10 +210,6 @@ resource languageServicesAccount 'Microsoft.CognitiveServices/accounts@2021-10-0
 
   }
 }
-
-
-
-////////////////////////////////////
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2020-10-01' = {
   name: hostingPlanName
@@ -270,10 +267,6 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
           'value': '~14'
         }
         {
-          'name': 'storageaccountobo970c_STORAGE'
-          'value': 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccount.id, storageAccount.apiVersion).keys[0].value}'
-        }
-        {
           'name': 'BLOB_STORAGE_CONTAINER'
           'value': blobContainer.name
         }
@@ -325,8 +318,26 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
           'name': 'FORMREC_ENDPOINT'
           'value': formrecEndpoint
         }
-        // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
-        // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish
+        {
+          'name': 'SPEECH_SUB_KEY'
+          'value': listKeys(cogServicesAccount.id, cogServicesAccount.apiVersion).key1
+        }
+        {
+          'name': 'SPEECH_SUB_REGION'
+          'value': cogServicesAccount.location
+        }
+        {
+          'name': 'TRANSLATE_APIKEY'
+          'value': listKeys(cogServicesAccount.id, cogServicesAccount.apiVersion).key1
+        }
+        {
+          'name': 'TRANSLATE_REGION'
+          'value': cogServicesAccount.location
+        }
+        {
+          'name' : 'TRANSLATE_ENDPOINT'
+          'value' : 'https://api.cognitive.microsofttranslator.com/'
+        }
       ]
     }
   }
@@ -339,7 +350,7 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
 
 resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
   name: webAppName
-  location: 'eastus2'
+  location: webappLocation
   sku: {
     name: 'Standard'
     tier: 'Standard'
@@ -350,7 +361,7 @@ resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
     provider: 'GitHub'
     repositoryUrl: repositoryUrl
     repositoryToken: repositoryToken
-    branch: branch
+    branch: 'main'
     buildProperties: {
       apiLocation: 'api'
     }
