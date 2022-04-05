@@ -179,10 +179,6 @@ Insert any commit message. You should see the pipeline stages workflow updating.
  ## 6. Load Documents!
 Use the Select PDF File to load your documents  
   **Note**: *your documents should be in pdf/image format. The first document loaded may take several minutes. However, all subsequent documents should be processed much faster*
- 
- ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/web_app_blank2.png)
- 
- ![](https://github.com/brandoncwn/staticwebappstarter/blob/main/images/web_app_file_upload_successful.png)
 
 Check for you newly found custom entities!
  
