@@ -9,12 +9,12 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'connection'
-  projectName: 'bpaengine'
-  resourceGroupName: 'bpaengine'
+  azureSubscription: ''
+  projectName: ''
+  resourceGroupName: ''
   location: 'eastus'
-  repositoryUrl: 'https://github.com/jameshoff-msft/bpa-engine-frontend'
-  repositoryToken: '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'
+  repositoryUrl: 'https://github.com/<>/bpa-engine-frontend'
+  repositoryToken: ''
 
   functionAppName: '$(projectName)'
   environmentName: '$(projectName)'
