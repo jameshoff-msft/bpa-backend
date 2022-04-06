@@ -5,6 +5,7 @@ import { Ocr } from "../services/ocr"
 import { BpaService } from "./types"
 import { FormRec } from "../services/formrec"
 import { Translate } from "../services/translate"
+import { HuggingFace } from "../services/huggingface"
 
 const ocr = new Ocr(process.env.OCR_ENDPOINT,process.env.OCR_APIKEY)
 const cosmosDb = new CosmosDB(process.env.COSMOSDB_CONNECTION_STRING,process.env.COSMOSDB_DB_NAME, process.env.COSMOSDB_CONTAINER_NAME)
@@ -12,6 +13,7 @@ const language = new LanguageStudio(process.env.LANGUAGE_STUDIO_PREBUILT_ENDPOIN
 const speech = new Speech(process.env.SPEECH_SUB_KEY,process.env.SPEECH_SUB_REGION)
 const formrec = new FormRec(process.env.FORMREC_ENDPOINT, process.env.FORMREC_APIKEY)
 const translate = new Translate(process.env.TRANSLATE_ENDPOINT, process.env.TRANSLATE_APIKEY, process.env.TRANSLATE_REGION)
+const huggingface = new HuggingFace(process.env.HUGGINGFACE_ENDPOINT)
 
 const translateService : BpaService = {
     bpaServiceId : "abc123",
@@ -127,11 +129,11 @@ const prebuiltTaxW2 : BpaService = {
 }
 
 
-const customFormrec : BpaService = {
+const customFormRec : BpaService = {
     bpaServiceId : "abc123",
     inputTypes: ["pdf","jpg","png","jpeg"],
-    outputTypes: ["customFormrec"],
-    name: "customFormrec",
+    outputTypes: ["customFormRec"],
+    name: "customFormRec",
     process: formrec.customFormrec,
     serviceSpecificConfig: {
         
@@ -307,6 +309,20 @@ const singleCategoryClassify : BpaService = {
     }
 }
 
+const huggingFaceNER : BpaService = {
+    inputTypes: ["text"],
+    outputTypes: ["huggingFaceNER"],
+    name: "huggingFaceNER",
+    bpaServiceId: "abc123",
+    process: huggingface.process,
+    serviceSpecificConfig: {
+
+    },
+    serviceSpecificConfigDefaults: {
+
+    }
+}
+
 export const serviceCatalog = {
     "ocrService" : ocrService, 
     "viewService" : viewService,
@@ -320,7 +336,7 @@ export const serviceCatalog = {
     "prebuiltInvoice" : prebuiltInvoice,
     "prebuiltReceipt" : prebuiltReceipt,
     "prebuiltTaxW2" : prebuiltTaxW2,
-    "customFormrec" : customFormrec,
+    "customFormRec" : customFormRec,
     "analyzeSentiment" : analyzeSentiment,
     "extractKeyPhrases" : extractKeyPhrases,
     "multiCategoryClassify" : multiCategoryClassify,
@@ -328,6 +344,7 @@ export const serviceCatalog = {
     "recognizeEntities" : recognizeEntities,
     "recognizeLinkedEntities" : recognizeLinkedEntities,
     "recognizePiiEntities" : recognizePiiEntities,
-    "singleCategoryClassify" : singleCategoryClassify
+    "singleCategoryClassify" : singleCategoryClassify,
+    "huggingFaceNER" : huggingFaceNER
 }
 

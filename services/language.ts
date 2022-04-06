@@ -101,7 +101,7 @@ export class LanguageStudio {
 
     public recognizeCustomEntities = async (input: BpaServiceObject): Promise<BpaServiceObject> => {
         const actions: TextAnalyticsActions = {
-            recognizeCustomEntitiesActions: [{ projectName : input.extraConfig.projectName, deploymentName : input.extraConfig.deploymentName }]
+            recognizeCustomEntitiesActions: [{ projectName : input.serviceSpecificConfig.projectName, deploymentName : input.serviceSpecificConfig.deploymentName }]
         };
 
         return await this._recognize(input, actions, 'recognizeCustomEntities', 'recognizeCustomEntities', "recognizeCustomEntitiesResults")
@@ -109,7 +109,7 @@ export class LanguageStudio {
 
     public singleCategoryClassify = async (input: BpaServiceObject): Promise<BpaServiceObject> => {
         const actions: TextAnalyticsActions = {
-            singleCategoryClassifyActions: [{ projectName : input.extraConfig.projectName, deploymentName : input.extraConfig.deploymentName }]
+            singleCategoryClassifyActions: [{ projectName : input.serviceSpecificConfig.projectName, deploymentName : input.serviceSpecificConfig.deploymentName }]
         };
 
         return await this._recognize(input, actions, 'singleCategoryClassify', 'singleCategoryClassify', "singleCategoryClassifyResults")
@@ -117,7 +117,7 @@ export class LanguageStudio {
 
     public multiCategoryClassify = async (input: BpaServiceObject): Promise<BpaServiceObject> => {
         const actions: TextAnalyticsActions = {
-            multiCategoryClassifyActions: [{ projectName : input.extraConfig.projectName, deploymentName : input.extraConfig.deploymentName }]
+            multiCategoryClassifyActions: [{ projectName : input.serviceSpecificConfig.projectName, deploymentName : input.serviceSpecificConfig.deploymentName }]
         };
 
         return await this._recognize(input, actions, 'multiCategoryClassify', 'multiCategoryClassify', "multiCategoryClassifyResults")

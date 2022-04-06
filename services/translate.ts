@@ -28,7 +28,7 @@ export class Translate {
                 headers: headers
             }
 
-            const url = `${this._endpoint}translate?api-version=3.0&to=${input.extraConfig.to}`
+            const url = `${this._endpoint}translate?api-version=3.0&to=${input.serviceSpecificConfig.to}`
             console.log(url)
 
             const out = await axios.post(url, [{ 'text': input.data }], config)

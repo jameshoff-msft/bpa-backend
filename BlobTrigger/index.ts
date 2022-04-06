@@ -3,7 +3,7 @@ import { BpaEngine } from "../engine"
 import { serviceCatalog } from "../engine/serviceCatalog"
 import { BpaConfiguration } from "../engine/types"
 import { CosmosDB } from "../services/cosmosdb"
-
+const _ = require('lodash')
 
 const blobTrigger: AzureFunction = async function (context: Context, myBlob: Buffer): Promise<void> {
     try {
@@ -14,12 +14,14 @@ const blobTrigger: AzureFunction = async function (context: Context, myBlob: Buf
         const bpaConfig: BpaConfiguration = {
             stages: []
         }
-        
+
         for (const stage of config.stages) {
             for(const sc of Object.keys(serviceCatalog)){
                 if(stage.name === serviceCatalog[sc].name){
                     context.log(`found ${stage.name}`)
-                    bpaConfig.stages.push({ service : serviceCatalog[sc] })
+                    const newStage = _.cloneDeep(serviceCatalog[sc])
+                    newStage.serviceSpecificConfig = stage.serviceSpecificConfig
+                    bpaConfig.stages.push({ service : newStage })
                 }
             }
         }

@@ -4,10 +4,7 @@ param repositoryToken string
 param repositoryUrl string
 param formrecApiKey string
 param formrecEndpoint string
-
-param webappLocation string = 'eastus2'
-
-//param branch string = 'main'
+param branch string = 'main'
 
 param cosmosDbName string = projectName
 param cosmosContainerName string = projectName
@@ -30,7 +27,7 @@ param primaryRegion string = location
 
 //language services
 param languageServicesLocation string = 'westus2' //fixed...not available everywhere
-//param languageStudioProjectName string = projectName
+param languageStudioProjectName string = projectName
 
 
 @allowed([
@@ -199,6 +196,8 @@ resource cogServicesAccount 'Microsoft.CognitiveServices/accounts@2021-10-01' = 
   }
 }
 
+
+
 resource languageServicesAccount 'Microsoft.CognitiveServices/accounts@2021-10-01' = {
   name: languageServicesName
   location: languageServicesLocation
@@ -211,12 +210,16 @@ resource languageServicesAccount 'Microsoft.CognitiveServices/accounts@2021-10-0
   }
 }
 
+
+
+////////////////////////////////////
+
 resource hostingPlan 'Microsoft.Web/serverfarms@2020-10-01' = {
   name: hostingPlanName
   location: location
   sku: {
-    name: 'Y1' 
-    tier: 'Dynamic'
+    name: 'B1' 
+    tier: 'Basic'
   }
 }
 
@@ -338,6 +341,8 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
           'name' : 'TRANSLATE_ENDPOINT'
           'value' : 'https://api.cognitive.microsofttranslator.com/'
         }
+        // WEBSITE_CONTENTSHARE will also be auto-generated - https://docs.microsoft.com/en-us/azure/azure-functions/functions-app-settings#website_contentshare
+        // WEBSITE_RUN_FROM_PACKAGE will be set to 1 by func azure functionapp publish
       ]
     }
   }
@@ -350,7 +355,7 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
 
 resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
   name: webAppName
-  location: webappLocation
+  location: 'eastus2'
   sku: {
     name: 'Standard'
     tier: 'Standard'
@@ -361,7 +366,7 @@ resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
     provider: 'GitHub'
     repositoryUrl: repositoryUrl
     repositoryToken: repositoryToken
-    branch: 'main'
+    branch: branch
     buildProperties: {
       apiLocation: 'api'
     }

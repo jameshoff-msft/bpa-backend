@@ -22,11 +22,9 @@ export class BpaEngine {
                 console.log(`stage : ${stage.service.name}`)
                 console.log('validating...')
                 if (this._validateInput(currentInput.type, stage)) {
-                    if(stage.serviceSpecificConfig){
-                        currentInput.extraConfig = stage.serviceSpecificConfig
-                    }
                     console.log('validation passed!!')
                     console.log('processing....')
+                    currentInput.serviceSpecificConfig = stage.service.serviceSpecificConfig
                     const currentOutput: BpaServiceObject = await stage.service.process(currentInput)
                     console.log('exiting stage')
                     currentInput = currentOutput
