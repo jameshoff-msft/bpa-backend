@@ -302,18 +302,6 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
           'value': listKeys(languageServicesAccount.id, languageServicesAccount.apiVersion).key1
         }
         {
-          'name': 'LANGUAGE_STUDIO_ENDPOINT'
-          'value': 'https://airangerslangcnerdemo.cognitiveservices.azure.com/text/analytics/v3.2-preview.2/analyze'  //languageServicesAccount.properties.endpoint
-        }
-        {
-          'name': 'LANGUAGE_STUDIO_APIKEY'
-          'value': '139f689301d8486d980c6ab17b773368' //listKeys(languageServicesAccount.id, languageServicesAccount.apiVersion).key1
-        }
-        {
-          'name': 'LANGUAGE_STUDIO_PROJECT'
-          'value': 'airangerscner4' //languageStudioProjectName
-        }
-        {
           'name': 'FORMREC_APIKEY'
           'value': formrecApiKey
         }
